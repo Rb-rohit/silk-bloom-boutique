@@ -4,11 +4,89 @@ import Navbar from "../components/Navbar"; import Footer from "../components/Foo
 
 export default function Shop() {
   const { products } = useStore(); const [params] = useSearchParams();
-  const [search, setSearch] = useState(params.get("search") || ""); const [category, setCategory] = useState(params.get("category") || "All"); const [collection, setCollection] = useState(params.get("collection") || ""); const [fabric, setFabric] = useState(""); const [color, setColor] = useState(""); const [occasion, setOccasion] = useState(""); const [price, setPrice] = useState(""); const [sort, setSort] = useState("featured");
-  useEffect(() => { setSearch(params.get("search") || ""); setCategory(params.get("category") || "All"); setCollection(params.get("collection") || ""); }, [params]);
+  const [search, setSearch] = useState(params.get("search") || ""); 
+  const [category, setCategory] = useState(params.get("category") || "All"); 
+  const [collection, setCollection] = useState(params.get("collection") || ""); 
+  const [fabric, setFabric] = useState(""); 
+  const [color, setColor] = useState(""); 
+  const [occasion, setOccasion] = useState(""); 
+  const [price, setPrice] = useState(""); 
+  const [sort, setSort] = useState("featured");
+
+  useEffect(() => { 
+    setSearch(params.get("search") || ""); 
+    setCategory(params.get("category") || "All"); 
+    setCollection(params.get("collection") || ""); 
+  }, [params]);
+
   const values = (key) => [...new Set(products.map((p) => p[key]).filter(Boolean))];
-  const filtered = useMemo(() => { let data = products.filter((p) => (!search || p.name.toLowerCase().includes(search.toLowerCase())) && (!collection || `${p.category} ${p.name}`.toLowerCase().includes(collection.slice(0, -1))) && (category === "All" || p.category === category) && (!fabric || p.fabric === fabric) && (!color || p.color === color) && (!occasion || p.occasion === occasion) && (!price || (price === "under" ? p.price < 2000 : p.price >= 2000))); if (sort === "low") data.sort((a,b)=>a.price-b.price); if (sort === "high") data.sort((a,b)=>b.price-a.price); return data; }, [products, search, category, collection, fabric, color, occasion, price, sort]);
-  const select = (title, value, setter) => <div className="mt-5"><h3 className="font-semibold mb-2">{title}</h3><select value={value} onChange={(e)=>setter(e.target.value)} className="field"><option value="">All {title.toLowerCase()}s</option>{values(title.toLowerCase()).map((v)=><option key={v}>{v}</option>)}</select></div>;
+  const filtered = useMemo(() => { 
+    let data = products.filter(
+      (p) => (!search || p.name.toLowerCase().includes(search.toLowerCase())) 
+        && (!collection || `${p.category} ${p.name}`.toLowerCase().includes(collection.slice(0, -1))) 
+        && (category === "All" || p.category === category) 
+        && (!fabric || p.fabric === fabric) && (!color || p.color === color) 
+        && (!occasion || p.occasion === occasion) && (!price || (price === "under" ? p.price < 2000 : p.price >= 2000))
+    ); 
+    if (sort === "low") data.sort((a,b)=>a.price-b.price); 
+    if (sort === "high") data.sort((a,b)=>b.price-a.price); 
+    return data; 
+  }, [products, search, category, collection, fabric, color, occasion, price, sort]);
+
+  const select = (title, value, setter) => 
+    <div className="mt-5">
+      <h3 className="font-semibold mb-2">{title}</h3>
+      <select value={value} onChange={(e)=>setter(e.target.value)} className="field">
+        <option value="">All {title.toLowerCase()}s</option>
+        {values(title.toLowerCase()).map((v)=><option key={v}>{v}</option>)}
+      </select>
+    </div>;
+
   const title = collection ? `${collection[0].toUpperCase()}${collection.slice(1)}` : "Shop all styles";
-  return <><Navbar /><main className="container-custom py-12"><p className="eyebrow">The collection</p><h1 className="section-title">{title}</h1><div className="grid lg:grid-cols-[255px_1fr] gap-8 mt-8"><aside className="filter-panel"><input value={search} onChange={(e)=>setSearch(e.target.value)} className="field" placeholder="Search products"/><div className="mt-5"><h3 className="font-semibold mb-2">Category</h3><select value={category} onChange={(e)=>setCategory(e.target.value)} className="field"><option>All</option>{values("category").map(v=><option key={v}>{v}</option>)}</select></div>{select("Fabric",fabric,setFabric)}{select("Color",color,setColor)}{select("Occasion",occasion,setOccasion)}<div className="mt-5"><h3 className="font-semibold mb-2">Price</h3><select value={price} onChange={(e)=>setPrice(e.target.value)} className="field"><option value="">All prices</option><option value="under">Under ₹2,000</option><option value="above">₹2,000 and above</option></select></div><button onClick={()=>{setSearch("");setCategory("All");setCollection("");setFabric("");setColor("");setOccasion("");setPrice("")}} className="text-sm underline mt-6">Clear filters</button></aside><div><div className="flex justify-between items-center mb-6"><p className="text-stone-600">{filtered.length} styles found</p><select value={sort} onChange={(e)=>setSort(e.target.value)} className="field w-auto"><option value="featured">Featured</option><option value="low">Price: low to high</option><option value="high">Price: high to low</option></select></div><div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">{filtered.map((p)=><ProductCard key={p._id} product={p}/>)}</div></div></div></main><Footer /></>;
+  return <>
+    <Navbar />
+    <main className="container-custom py-12">
+      <p className="eyebrow">The collection</p>
+      <h1 className="section-title">{title}</h1>
+      <div className="grid lg:grid-cols-[255px_1fr] gap-8 mt-8">
+        <aside className="filter-panel">
+          <input value={search} onChange={(e)=>setSearch(e.target.value)} className="field" placeholder="Search products"/>
+          <div className="mt-5">
+            <h3 className="font-semibold mb-2">Category</h3>
+            <select value={category} onChange={(e)=>setCategory(e.target.value)} className="field">
+              <option>All</option>
+              {values("category").map(v=><option key={v}>{v}</option>)}
+            </select>
+          </div>
+          {select("Fabric",fabric,setFabric)}{select("Color",color,setColor)}{select("Occasion",occasion,setOccasion)}
+            <div className="mt-5">
+              <h3 className="font-semibold mb-2">Price</h3>
+              <select value={price} onChange={(e)=>setPrice(e.target.value)} className="field">
+                <option value="">All prices</option>
+                <option value="under">Under ₹2,000</option>
+                <option value="above">₹2,000 and above</option>
+              </select>
+            </div>
+            <button 
+              onClick={()=>{setSearch("");setCategory("All");setCollection("");setFabric("");setColor("");setOccasion("");setPrice("")}} 
+              className="text-sm underline mt-6">
+                Clear filters
+            </button>
+        </aside>
+        <div>
+          <div className="flex justify-between items-center mb-6">
+            <p className="text-stone-600">{filtered.length} styles found</p>
+            <select value={sort} onChange={(e)=>setSort(e.target.value)} className="field w-auto">
+              <option value="featured">Featured</option><option value="low">Price: low to high</option>
+              <option value="high">Price: high to low</option>
+            </select>
+          </div>
+          <div className="grid sm:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filtered.map((p)=><ProductCard key={p._id} product={p}/>)}
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer />
+  </>;
 }

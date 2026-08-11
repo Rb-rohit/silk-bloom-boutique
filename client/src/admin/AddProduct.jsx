@@ -2,11 +2,12 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import axios from "axios";
+import { categoryGroups } from "../data/categories";
 
 export default function AddProduct() {
   const [form, setForm] = useState({
     name: "",
-    category: "Silk Sarees",
+    category: "Sarees",
     fabric: "",
     color: "",
     occasion: "",
@@ -67,7 +68,7 @@ export default function AddProduct() {
 
       setForm({
         name: "",
-        category: "Silk Sarees",
+        category: "Sarees",
         fabric: "",
         color: "",
         occasion: "",
@@ -109,11 +110,7 @@ export default function AddProduct() {
               onChange={handleChange}
               className="border p-4 rounded-xl"
             >
-              <option>Sarees</option>
-              <option>Kurtis</option>
-              <option>Dresses</option>
-              <option>Lehengas</option>
-              <option>Gowns</option>
+              {categoryGroups.map((group) => <optgroup key={group.name} label={group.name}>{group.categories.map((category) => <option key={category}>{category}</option>)}</optgroup>)}
             </select>
 
             <input

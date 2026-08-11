@@ -11,8 +11,8 @@ export default function Footer() {
 
         <div>
           <h4 className="font-semibold mb-4">Contact</h4>
-          <p>Nashik, Maharashtra</p>
-          <p>+91 98765 43210</p>
+          <p>Nagpur, Maharashtra</p>
+          <p>+91 9921923609</p>
           <p>silkbloom@example.com</p>
         </div>
 
@@ -24,7 +24,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/10 py-6 text-center text-gray-400 text-sm">
-        © 2026 Silk & Bloom Boutique. All rights reserved.
+        © 2026 Silk & Bloom Boutique. All rights reserved. rb.rohit_0704_Developer
       </div>
     </footer>
   );

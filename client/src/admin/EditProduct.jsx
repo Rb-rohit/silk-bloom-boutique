@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import { categoryGroups } from "../data/categories";
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -78,11 +79,7 @@ export default function EditProduct() {
               onChange={handleChange}
               className="border p-4 rounded-xl"
             >
-              <option>Sarees</option>
-              <option>Kurtis</option>
-              <option>Dresses</option>
-              <option>Lehengas</option>
-              <option>Gowns</option>
+              {categoryGroups.map((group) => <optgroup key={group.name} label={group.name}>{group.categories.map((category) => <option key={category}>{category}</option>)}</optgroup>)}
             </select>
 
             <input

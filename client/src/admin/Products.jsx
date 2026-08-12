@@ -11,7 +11,7 @@ export default function Products() {
   
 
   const fetchProducts = async () => {
-    const res = await fetch("http://localhost:5000/api/products");
+    const res = await fetch("https://silk-bloom-boutique.onrender.com/api/products");
     const data = await res.json();
     setProducts(data);
   };
@@ -24,7 +24,7 @@ export default function Products() {
     const ok = window.confirm("Delete this product?");
     if (!ok) return;
 
-    await fetch(`http://localhost:5000/api/products/${id}`, {
+    await fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`, {
       method: "DELETE",
     });
 

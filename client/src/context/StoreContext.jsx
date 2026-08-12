@@ -14,7 +14,7 @@ export function StoreProvider({ children }) {
   const [products, setProducts] = useState(catalog);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch("https://silk-bloom-boutique.onrender.com/api/products")
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data) => { if (data.length) setProducts(data); })
       .catch(() => {});

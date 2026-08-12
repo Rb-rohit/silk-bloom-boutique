@@ -22,7 +22,7 @@ export default function EditProduct() {
   });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`)
       .then((res) => res.json())
       .then((data) => setForm(data));
   }, [id]);
@@ -34,7 +34,7 @@ export default function EditProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch(`http://localhost:5000/api/products/${id}`, {
+    await fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

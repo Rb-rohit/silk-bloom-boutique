@@ -3,6 +3,7 @@ import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import axios from "axios";
 import { categoryGroups } from "../data/categories";
+import { PRODUCTS_API } from "../config/api";
 
 export default function AddProduct() {
   const [form, setForm] = useState({
@@ -51,7 +52,7 @@ export default function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("https://silk-bloom-boutique.onrender.com/api/products", {
+    const res = await fetch(PRODUCTS_API, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

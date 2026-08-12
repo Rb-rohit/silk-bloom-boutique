@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import { categoryGroups } from "../data/categories";
+import { PRODUCTS_API } from "../config/api";
 
 export default function EditProduct() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function EditProduct() {
   });
 
   useEffect(() => {
-    fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`)
+    fetch(`${PRODUCTS_API}/${id}`)
       .then((res) => res.json())
       .then((data) => setForm(data));
   }, [id]);
@@ -34,7 +35,7 @@ export default function EditProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`, {
+    await fetch(`${PRODUCTS_API}/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

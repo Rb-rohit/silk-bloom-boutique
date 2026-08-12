@@ -3,6 +3,7 @@ import { Search, Trash2, Pencil } from "lucide-react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import { useNavigate } from "react-router-dom";
+import { PRODUCTS_API } from "../config/api";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
@@ -11,7 +12,7 @@ export default function Products() {
   
 
   const fetchProducts = async () => {
-    const res = await fetch("https://silk-bloom-boutique.onrender.com/api/products");
+    const res = await fetch(PRODUCTS_API);
     const data = await res.json();
     setProducts(data);
   };
@@ -24,7 +25,7 @@ export default function Products() {
     const ok = window.confirm("Delete this product?");
     if (!ok) return;
 
-    await fetch(`https://silk-bloom-boutique.onrender.com/api/products/${id}`, {
+    await fetch(`${PRODUCTS_API}/${id}`, {
       method: "DELETE",
     });
 

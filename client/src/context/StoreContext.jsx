@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { catalog } from "../data/catalog";
+import { PRODUCTS_API } from "../config/api";
 
 const StoreContext = createContext();
 const read = (key, fallback) => {
@@ -14,7 +15,7 @@ export function StoreProvider({ children }) {
   const [products, setProducts] = useState(catalog);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(PRODUCTS_API)
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data) => { if (data.length) setProducts(data); })
       .catch(() => {});
